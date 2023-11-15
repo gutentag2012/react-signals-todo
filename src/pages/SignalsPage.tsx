@@ -7,7 +7,7 @@ import {
     numberOfOpenTodos,
     numberOfPendingTodos,
     todos
-} from "@/utils/signalsTodos.ts";
+} from "@/utils/signalsTodos.tsx";
 import {EditTodoDialogSignal, TodoFormSignal} from "@/components/common/TodoForm.tsx";
 import {TodoItemSignals as TodoItem} from "@/components/common/TodoItem.tsx";
 import {TodoCard} from "@/components/common/TodoCard.tsx";

@@ -1,5 +1,7 @@
 import {generateId, loadTodosFromLocalStorage, storeTodosInLocalStorage, Todo} from "@/utils/todos.ts";
 import {batch, computed, Signal, signal} from "@preact/signals-react";
+import {toast} from "@/components/ui/use-toast.ts";
+import {ToastAction} from "@/components/ui/toast.tsx";
 
 export type TodoItem = {
     id: Todo["id"],
@@ -50,6 +52,11 @@ export const addTodo = async (incomingTodo: Omit<Todo, "id" | "isPending">) => {
 
     // Add the new item
     todos.value = [...todos.peek(), newItem]
+    toast({
+        title: "Todo added",
+        description: "The todo has been added to the list",
+        duration: 3000
+    })
 
     // Store the item
     await storeTodosItemsInLocalStorage(todos.peek())
@@ -73,6 +80,11 @@ export const updateTodo = async (id: number, todo: Partial<Todo>) => {
         ...todo,
         isPending: true
     }
+    toast({
+        title: "Todo updated",
+        description: "The todo has been updated",
+        duration: 3000
+    })
 
     // Store the item
     await storeTodosItemsInLocalStorage(todos.peek())
@@ -91,6 +103,30 @@ export const removeTodo = async (id: number) => {
     }
 
     todos.value = todos.peek().filter(t => t.id !== id)
-    // Remove from list in storage
     await storeTodosItemsInLocalStorage(todos.peek())
+
+    toast({
+        title: "Todo removed",
+        description: "The todo has been removed",
+        variant: "destructive",
+        action: <ToastAction altText="Undo" onClick={async () => {
+            if(todos.peek().some(t => t.id === id)) {
+               return
+            }
+
+            todoItem.todo.value = {
+                ...todoItem.todo.peek(),
+                isPending: true
+            }
+            todos.value = [...todos.peek(), todoItem]
+            await storeTodosItemsInLocalStorage(todos.peek())
+
+            todoItem.todo.value = {
+                ...todoItem.todo.peek(),
+                isPending: false
+            }
+        }}>
+            Undo
+        </ToastAction>
+    })
 }

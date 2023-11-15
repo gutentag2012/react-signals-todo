@@ -1,5 +1,5 @@
 import {memo, useMemo, useState} from "react";
-import {RemoveTodo, UpdateTodo, useTodos} from "@/utils/useTodos.ts";
+import {RemoveTodo, UpdateTodo, useTodos} from "@/utils/useTodos.tsx";
 import {Todo} from "@/utils/todos.ts";
 import TodoItem from "@/components/common/TodoItem.tsx";
 import {TodoCard} from "@/components/common/TodoCard.tsx";

@@ -23,7 +23,7 @@ export const loadTodosFromLocalStorage = async (delay = 1_500): Promise<Todo[]> 
     return []
 }
 
-export const storeTodosInLocalStorage = async (todos: Todo[], delay=1_000) => {
+export const storeTodosInLocalStorage = async (todos: Todo[], delay = 1_000) => {
     await new Promise(resolve => setTimeout(resolve, delay))
 
     // We don't want to store the pending status

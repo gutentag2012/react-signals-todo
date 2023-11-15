@@ -1,4 +1,4 @@
-import {AddTodo, UpdateTodo} from "@/utils/useTodos.ts";
+import {AddTodo, UpdateTodo} from "@/utils/useTodos.tsx";
 import {memo, useEffect, useState} from "react";
 import {AddTodoModel, Importance, ImportanceValues, Todo} from "@/utils/todos.ts";
 import {format} from "date-fns";
@@ -28,7 +28,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog.tsx";
 import parse from "date-fns/parse";
-import {editTodo, updateTodo} from "@/utils/signalsTodos.ts";
+import {editTodo, updateTodo} from "@/utils/signalsTodos.tsx";
 
 //region Hooks
 function LabelInput({value, onChange}: { value: string, onChange: (value: string) => void }) {

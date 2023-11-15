@@ -1,4 +1,4 @@
-import {RemoveTodo, UpdateTodo} from "@/utils/useTodos.ts";
+import {RemoveTodo, UpdateTodo} from "@/utils/useTodos.tsx";
 import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {cn} from "@/lib/utils.ts";
 import {Checkbox} from "@/components/ui/checkbox.tsx";
@@ -6,7 +6,7 @@ import {CheckSquare2, ChevronsDown, ChevronsUp, Delete, Minus, Pen, Square} from
 import {Button} from "@/components/ui/button.tsx";
 import {Todo} from "@/utils/todos.ts";
 import {Signal} from "@preact/signals-react";
-import {editTodo, removeTodo, updateTodo} from "@/utils/signalsTodos.ts";
+import {editTodo, removeTodo, updateTodo} from "@/utils/signalsTodos.tsx";
 import {
     ContextMenu,
     ContextMenuContent,
