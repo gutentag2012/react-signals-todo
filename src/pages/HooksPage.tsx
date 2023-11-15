@@ -84,7 +84,7 @@ export default function HooksPage() {
                 <ExpensiveVolatileCounterComponentHooks/>
             </div>
 
-            <div className="my-4">
+            <div className="my-12">
                 <h3 className="text-xl mb-2">Add Todo</h3>
                 <TodoForm addTodo={addTodo}/>
             </div>

@@ -70,7 +70,7 @@ export default function SignalsPage() {
                 <ExpensiveVolatileCounterComponentSignals/>
             </div>
 
-            <div className="my-4">
+            <div className="my-12">
                 <h3 className="text-xl mb-2">Add Todo</h3>
                 <TodoFormSignal addTodo={addTodo}/>
             </div>
