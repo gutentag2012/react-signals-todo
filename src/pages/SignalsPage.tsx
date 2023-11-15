@@ -15,18 +15,21 @@ import {ExpensiveVolatileCounterComponentSignals} from "@/components/common/Expe
 import {ExpensivePersistentCounterComponentSignals} from "@/components/common/ExpensivePersitentCounterComponent.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {RefreshCcw} from "lucide-react";
+import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 
 const MemoizedTodoItem = memo(TodoItem)
 
 function TodoList() {
     if (isLoading.value) return <p className="text-lg p-4 font-medium text-center">Loading...</p>
-    if(!todos.value.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
+    if (!todos.value.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
 
-    return <div className="flex flex-col gap-2">
-        {
-            todos.value.map(({id, todo}) => <MemoizedTodoItem key={id} todo={todo}/>)
-        }
-    </div>
+    return <ScrollArea className="h-[424px]">
+        <div className="flex flex-col gap-2 mr-3">
+            {
+                todos.value.map(({id, todo}) => <MemoizedTodoItem key={id} todo={todo}/>)
+            }
+        </div>
+    </ScrollArea>
 }
 
 export default function SignalsPage() {
@@ -37,7 +40,7 @@ export default function SignalsPage() {
 
     return (
         <>
-            <EditTodoDialogSignal />
+            <EditTodoDialogSignal/>
 
             <div className="flex gap-2 my-2">
                 <TodoCard

@@ -3,13 +3,12 @@ import {RemoveTodo, UpdateTodo, useTodos} from "@/utils/useTodos.tsx";
 import {Todo} from "@/utils/todos.ts";
 import TodoItem from "@/components/common/TodoItem.tsx";
 import {TodoCard} from "@/components/common/TodoCard.tsx";
-import {
-    ExpensiveVolatileCounterComponentHooks
-} from "@/components/common/ExpensiveVolatileCounterComponent.tsx";
+import {ExpensiveVolatileCounterComponentHooks} from "@/components/common/ExpensiveVolatileCounterComponent.tsx";
 import {ExpensivePersistentCounterComponentHooks} from "@/components/common/ExpensivePersitentCounterComponent.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {RefreshCcw} from "lucide-react";
 import {EditTodoDialog, TodoForm} from "@/components/common/TodoForm.tsx";
+import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 
 const MemoizedTodoItem = memo(TodoItem, (prevProps, nextProps) => {
     const functionsAreEqual = prevProps.removeTodo === nextProps.removeTodo && prevProps.updateTodo === nextProps.updateTodo
@@ -29,17 +28,19 @@ function TodoList({todos, isLoading, removeTodo, updateTodo, onEditTodo}: {
     if (isLoading) return <p className="text-lg p-4 font-medium text-center">Loading...</p>
     if (!todos.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
 
-    return <div className="flex flex-col gap-2">
-        {
-            todos.map(todo => <MemoizedTodoItem
-                key={todo.id}
-                todo={todo}
-                updateTodo={updateTodo}
-                removeTodo={removeTodo}
-                onEdit={onEditTodo}
-            />)
-        }
-    </div>
+    return <ScrollArea className="h-[424px]">
+        <div className="flex flex-col gap-2 mr-3">
+            {
+                todos.map(todo => <MemoizedTodoItem
+                    key={todo.id}
+                    todo={todo}
+                    updateTodo={updateTodo}
+                    removeTodo={removeTodo}
+                    onEdit={onEditTodo}
+                />)
+            }
+        </div>
+    </ScrollArea>
 }
 
 export default function HooksPage() {
@@ -87,7 +88,8 @@ export default function HooksPage() {
                     <h3 className="text-xl">Todos</h3>
                 </div>
 
-                <TodoList todos={todos} isLoading={isLoading} removeTodo={removeTodo} updateTodo={updateTodo} onEditTodo={setEditTodo}/>
+                <TodoList todos={todos} isLoading={isLoading} removeTodo={removeTodo} updateTodo={updateTodo}
+                          onEditTodo={setEditTodo}/>
             </div>
         </>
     )
