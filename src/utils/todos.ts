@@ -11,6 +11,8 @@ export interface Todo {
     isPending?: boolean
 }
 
+export type AddTodoModel = Omit<Todo, "id" | "isPending">
+
 export const loadTodosFromLocalStorage = async (delay = 1_500): Promise<Todo[]> => {
     await new Promise(resolve => setTimeout(resolve, delay))
 
