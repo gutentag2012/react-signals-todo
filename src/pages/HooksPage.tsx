@@ -1,6 +1,5 @@
-import {memo, useMemo} from "react";
+import {memo, useMemo, useState} from "react";
 import {RemoveTodo, UpdateTodo, useTodos} from "@/utils/useTodos.ts";
-import TodoForm from "@/components/common/TodoForm.tsx";
 import {Todo} from "@/utils/todos.ts";
 import TodoItem from "@/components/common/TodoItem.tsx";
 import {TodoCard} from "@/components/common/TodoCard.tsx";
@@ -10,6 +9,7 @@ import {
 import {ExpensivePersistentCounterComponentHooks} from "@/components/common/ExpensivePersitentCounterComponent.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {RefreshCcw} from "lucide-react";
+import {EditTodoDialog, TodoForm} from "@/components/common/TodoForm.tsx";
 
 const MemoizedTodoItem = memo(TodoItem, (prevProps, nextProps) => {
     const functionsAreEqual = prevProps.removeTodo === nextProps.removeTodo && prevProps.updateTodo === nextProps.updateTodo
@@ -19,9 +19,15 @@ const MemoizedTodoItem = memo(TodoItem, (prevProps, nextProps) => {
 
 const MemoizedTodoCard = memo(TodoCard)
 
-function TodoList({todos, isLoading, removeTodo, updateTodo}: { todos: Array<Todo>, isLoading: boolean, updateTodo: UpdateTodo, removeTodo: RemoveTodo }) {
+function TodoList({todos, isLoading, removeTodo, updateTodo, onEditTodo}: {
+    todos: Array<Todo>,
+    isLoading: boolean,
+    updateTodo: UpdateTodo,
+    removeTodo: RemoveTodo,
+    onEditTodo: (editTodo: Todo) => void
+}) {
     if (isLoading) return <p className="text-lg p-4 font-medium text-center">Loading...</p>
-    if(!todos.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
+    if (!todos.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
 
     return <div className="flex flex-col gap-2">
         {
@@ -30,6 +36,7 @@ function TodoList({todos, isLoading, removeTodo, updateTodo}: { todos: Array<Tod
                 todo={todo}
                 updateTodo={updateTodo}
                 removeTodo={removeTodo}
+                onEdit={onEditTodo}
             />)
         }
     </div>
@@ -37,6 +44,7 @@ function TodoList({todos, isLoading, removeTodo, updateTodo}: { todos: Array<Tod
 
 export default function HooksPage() {
     const [isLoading, todos, addTodo, updateTodo, removeTodo, reload] = useTodos();
+    const [editTodo, setEditTodo] = useState<Todo | undefined>(undefined);
 
     const numberOfFinishedTodos = useMemo(() => isLoading ? "-" : todos.filter(todo => todo.status === "done").length, [todos, isLoading]);
     const numberOfOpenTodos = useMemo(() => isLoading ? "-" : todos.filter(todo => todo.status === "todo").length, [todos, isLoading]);
@@ -44,6 +52,8 @@ export default function HooksPage() {
 
     return (
         <>
+            <EditTodoDialog todo={editTodo} updateTodo={updateTodo} onClose={() => setEditTodo(undefined)}/>
+
             <div className="flex gap-2 my-2">
                 <MemoizedTodoCard
                     title="Finished"
@@ -60,8 +70,8 @@ export default function HooksPage() {
                     description="The number of todos that are not yet persisted"
                     count={numberOfPendingTodos}
                 />
-                <ExpensivePersistentCounterComponentHooks />
-                <ExpensiveVolatileCounterComponentHooks />
+                <ExpensivePersistentCounterComponentHooks/>
+                <ExpensiveVolatileCounterComponentHooks/>
             </div>
 
             <div className="my-4">
@@ -72,12 +82,12 @@ export default function HooksPage() {
             <div className="my-4">
                 <div className="flex gap-2 items-center mb-2">
                     <Button variant="outline" className="w-8 h-8 p-0" onClick={() => reload()}>
-                        <RefreshCcw size={16} />
+                        <RefreshCcw size={16}/>
                     </Button>
                     <h3 className="text-xl">Todos</h3>
                 </div>
 
-                <TodoList todos={todos} isLoading={isLoading} removeTodo={removeTodo} updateTodo={updateTodo}/>
+                <TodoList todos={todos} isLoading={isLoading} removeTodo={removeTodo} updateTodo={updateTodo} onEditTodo={setEditTodo}/>
             </div>
         </>
     )

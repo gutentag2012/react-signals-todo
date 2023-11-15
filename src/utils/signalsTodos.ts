@@ -9,6 +9,7 @@ export type TodoItem = {
 //region Global state
 export const isLoading = signal(false)
 export const todos = signal<Array<TodoItem>>([])
+export const editTodo = signal<Todo | undefined>(undefined)
 //endregion
 
 export const loadTodos = async () => {

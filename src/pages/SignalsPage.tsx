@@ -8,7 +8,7 @@ import {
     numberOfPendingTodos,
     todos
 } from "@/utils/signalsTodos.ts";
-import {TodoFormSignal} from "@/components/common/TodoForm.tsx";
+import {EditTodoDialogSignal, TodoFormSignal} from "@/components/common/TodoForm.tsx";
 import {TodoItemSignals as TodoItem} from "@/components/common/TodoItem.tsx";
 import {TodoCard} from "@/components/common/TodoCard.tsx";
 import {ExpensiveVolatileCounterComponentSignals} from "@/components/common/ExpensiveVolatileCounterComponent.tsx";
@@ -37,6 +37,8 @@ export default function SignalsPage() {
 
     return (
         <>
+            <EditTodoDialogSignal />
+
             <div className="flex gap-2 my-2">
                 <TodoCard
                     title="Finished"
