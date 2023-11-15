@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import {generateId, loadTodosFromLocalStorage, storeTodosInLocalStorage, Todo} from "@/utils/todos.ts";
+import {generateId, loadTodosFromLocalStorage, storeTodosInLocalStorage, Todo, AddTodoModel} from "@/utils/todos.ts";
 
 //! Does reduce the number of renders for the todolist, but is not adviced to be used in a real world scenario!
 export const useTodosBad = () => {
@@ -98,7 +98,7 @@ export const useTodos = () => {
         reload()
     }, [reload])
 
-    const addTodo = useCallback(async (incomingTodo: Omit<Todo, "id" | "isPending">) => {
+    const addTodo = useCallback(async (incomingTodo: AddTodoModel) => {
         const todo = {
             id: generateId(),
             ...incomingTodo
