@@ -1,6 +1,6 @@
 import {AddTodo} from "@/utils/useTodos.ts";
 import {memo, useState} from "react";
-import {Importance, ImportanceValues} from "@/utils/todos.ts";
+import {AddTodoModel, Importance, ImportanceValues} from "@/utils/todos.ts";
 import {format} from "date-fns";
 import {Input} from "@/components/ui/input.tsx";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
@@ -29,6 +29,7 @@ function LabelInput({value, onChange}: { value: string, onChange: (value: string
         onChange={e => onChange(e.target.value)}
     />
 }
+
 // To be clear in a real application you would not memoize this component, since it is not expensive to render
 const MemoizedLabelInput = memo(LabelInput)
 
@@ -56,10 +57,14 @@ function DateInput({date, onChange}: { date: Date | undefined, onChange: (date: 
         </PopoverContent>
     </Popover>
 }
+
 // To be clear in a real application you would not memoize this component, since it is not expensive to render
 const MemoizedDateInput = memo(DateInput)
 
-function ImportanceSelect({importance, onChange}: { importance: Importance, onChange: (importance: Importance) => void }) {
+function ImportanceSelect({importance, onChange}: {
+    importance: Importance,
+    onChange: (importance: Importance) => void
+}) {
     return <Select value={importance} onValueChange={e => onChange(e as Importance)}>
         <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select a page"/>
@@ -79,6 +84,7 @@ function ImportanceSelect({importance, onChange}: { importance: Importance, onCh
         </SelectContent>
     </Select>
 }
+
 // To be clear in a real application you would not memoize this component, since it is not expensive to render
 const MemoizedImportanceSelect = memo(ImportanceSelect)
 
@@ -104,9 +110,9 @@ export default function TodoForm({addTodo}: { addTodo: AddTodo }) {
         })
     }}>
         <div className="flex gap-2 mb-2">
-            <MemoizedLabelInput value={todoLabel} onChange={setTodoLabel} />
-            <MemoizedDateInput date={selectedDate} onChange={setSelectedDate} />
-            <MemoizedImportanceSelect importance={importance} onChange={setImportance} />
+            <MemoizedLabelInput value={todoLabel} onChange={setTodoLabel}/>
+            <MemoizedDateInput date={selectedDate} onChange={setSelectedDate}/>
+            <MemoizedImportanceSelect importance={importance} onChange={setImportance}/>
         </div>
 
         <Button>Create</Button>
@@ -124,11 +130,14 @@ function InputSignal({value}: { value: Signal<string> }) {
 }
 
 function DateInputSignal({date}: { date: Signal<Date | undefined> }) {
-    return <DateInput date={date.value} onChange={newDate => date.value = newDate} />
+    return <DateInput date={date.value} onChange={newDate => date.value = newDate}/>
 }
 
 function ImportanceSelectSignal({importance}: { importance: Signal<Importance> }) {
-    return <ImportanceSelect importance={importance.value} onChange={newImportance => importance.value = newImportance} />
+    return <ImportanceSelect
+        importance={importance.value}
+        onChange={newImportance => importance.value = newImportance}
+    />
 }
 
 export function TodoFormSignal({addTodo}: { addTodo: AddTodo }) {
@@ -139,6 +148,13 @@ export function TodoFormSignal({addTodo}: { addTodo: AddTodo }) {
     return <form onSubmit={e => {
         e.preventDefault()
 
+        const newTodo: AddTodoModel = {
+            importance: importance.peek(),
+            status: "todo",
+            label: todoLabel.peek(),
+            date: selectedDate ? format(selectedDate.peek(), "PPP") : undefined
+        };
+
         // ResetForm
         batch(() => {
             todoLabel.value = ""
@@ -146,20 +162,16 @@ export function TodoFormSignal({addTodo}: { addTodo: AddTodo }) {
             importance.value = "medium"
         })
 
-        return addTodo({
-            importance: importance.peek(),
-            status: "todo",
-            label: todoLabel.peek(),
-            date: selectedDate ? format(selectedDate.peek(), "PPP") : undefined
-        })
+        return addTodo(newTodo)
     }}>
         <div className="flex gap-2 mb-2">
             <InputSignal value={todoLabel}/>
-            <DateInputSignal date={selectedDate} />
-            <ImportanceSelectSignal importance={importance} />
+            <DateInputSignal date={selectedDate}/>
+            <ImportanceSelectSignal importance={importance}/>
         </div>
 
         <Button>Create</Button>
     </form>
 }
+
 //endregion
