@@ -1,7 +1,7 @@
 import {memo, useMemo, useState} from "react";
 import {RemoveTodo, UpdateTodo, useTodos} from "@/utils/useTodos.tsx";
 import {Todo} from "@/utils/todos.ts";
-import TodoItem from "@/components/common/TodoItem.tsx";
+import TodoItem, {TodoItemSkeleton} from "@/components/common/TodoItem.tsx";
 import {TodoCard} from "@/components/common/TodoCard.tsx";
 import {ExpensiveVolatileCounterComponentHooks} from "@/components/common/ExpensiveVolatileCounterComponent.tsx";
 import {ExpensivePersistentCounterComponentHooks} from "@/components/common/ExpensivePersitentCounterComponent.tsx";
@@ -25,19 +25,28 @@ function TodoList({todos, isLoading, removeTodo, updateTodo, onEditTodo}: {
     removeTodo: RemoveTodo,
     onEditTodo: (editTodo: Todo) => void
 }) {
-    if (isLoading) return <p className="text-lg p-4 font-medium text-center">Loading...</p>
-    if (!todos.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
+    if (!isLoading && !todos.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
 
-    return <ScrollArea className="h-[424px]">
+    return <ScrollArea className="h-[525px]">
         <div className="flex flex-col gap-2 mr-3">
             {
-                todos.map(todo => <MemoizedTodoItem
-                    key={todo.id}
-                    todo={todo}
-                    updateTodo={updateTodo}
-                    removeTodo={removeTodo}
-                    onEdit={onEditTodo}
-                />)
+                isLoading
+                    ? <>
+                        <TodoItemSkeleton/>
+                        <TodoItemSkeleton/>
+                        <TodoItemSkeleton/>
+                        <TodoItemSkeleton/>
+                        <TodoItemSkeleton/>
+                        <TodoItemSkeleton/>
+                    </>
+                    : todos.map(todo => <MemoizedTodoItem
+                        key={todo.id}
+                        todo={todo}
+                        updateTodo={updateTodo}
+                        removeTodo={removeTodo}
+                        onEdit={onEditTodo}
+                    />)
+
             }
         </div>
     </ScrollArea>

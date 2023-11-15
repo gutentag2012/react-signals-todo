@@ -14,6 +14,7 @@ import {
     ContextMenuSeparator,
     ContextMenuTrigger
 } from "@/components/ui/context-menu.tsx";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function TodoItem({todo, updateTodo, removeTodo, onEdit}: { todo: Todo, updateTodo: UpdateTodo, removeTodo: RemoveTodo, onEdit: (editTodo: Todo) => void }) {
     const toggleTodo = () => updateTodo(todo.id, {status: todo.status === "todo" ? "done" : "todo"});
@@ -65,6 +66,19 @@ export default function TodoItem({todo, updateTodo, removeTodo, onEdit}: { todo:
             </ContextMenuItem>
         </ContextMenuContent>
     </ContextMenu>
+}
+
+export function TodoItemSkeleton() {
+    return <Card className="flex items-center px-4 h-[92px]">
+        <Skeleton className="w-4 h-4 rounded-md" />
+
+        <CardHeader>
+            <Skeleton className="w-24 h-4" />
+            <Skeleton className="w-48 h-3 mt-1.5" />
+        </CardHeader>
+
+        <Skeleton className="w-6 h-6 ml-auto" />
+    </Card>
 }
 
 export function TodoItemSignals({todo: rawTodo}: { todo: Signal<Todo> }) {

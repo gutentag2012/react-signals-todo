@@ -9,7 +9,7 @@ import {
     todos
 } from "@/utils/signalsTodos.tsx";
 import {EditTodoDialogSignal, TodoFormSignal} from "@/components/common/TodoForm.tsx";
-import {TodoItemSignals as TodoItem} from "@/components/common/TodoItem.tsx";
+import {TodoItemSignals as TodoItem, TodoItemSkeleton} from "@/components/common/TodoItem.tsx";
 import {TodoCard} from "@/components/common/TodoCard.tsx";
 import {ExpensiveVolatileCounterComponentSignals} from "@/components/common/ExpensiveVolatileCounterComponent.tsx";
 import {ExpensivePersistentCounterComponentSignals} from "@/components/common/ExpensivePersitentCounterComponent.tsx";
@@ -20,13 +20,21 @@ import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 const MemoizedTodoItem = memo(TodoItem)
 
 function TodoList() {
-    if (isLoading.value) return <p className="text-lg p-4 font-medium text-center">Loading...</p>
-    if (!todos.value.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
+    if (!isLoading.value && !todos.value.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
 
-    return <ScrollArea className="h-[424px]">
+    return <ScrollArea className="h-[525px]">
         <div className="flex flex-col gap-2 mr-3">
             {
-                todos.value.map(({id, todo}) => <MemoizedTodoItem key={id} todo={todo}/>)
+                isLoading.value
+                    ? <>
+                        <TodoItemSkeleton/>
+                        <TodoItemSkeleton/>
+                        <TodoItemSkeleton/>
+                        <TodoItemSkeleton/>
+                        <TodoItemSkeleton/>
+                        <TodoItemSkeleton/>
+                    </>
+                    : todos.value.map(({id, todo}) => <MemoizedTodoItem key={id} todo={todo}/>)
             }
         </div>
     </ScrollArea>
