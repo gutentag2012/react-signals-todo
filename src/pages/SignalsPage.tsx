@@ -1,13 +1,14 @@
 import {memo, useEffect} from "react";
 import {
     addTodo,
-    isLoading, loadTodos,
+    isLoading,
+    loadTodos,
     numberOfFinishedTodos,
     numberOfOpenTodos,
     numberOfPendingTodos,
     todos
 } from "@/utils/signalsTodos.ts";
-import TodoForm from "@/components/common/TodoForm.tsx";
+import {TodoFormSignal} from "@/components/common/TodoForm.tsx";
 import {TodoItemSignals as TodoItem} from "@/components/common/TodoItem.tsx";
 import {TodoCard} from "@/components/common/TodoCard.tsx";
 import {ExpensiveVolatileCounterComponentSignals} from "@/components/common/ExpensiveVolatileCounterComponent.tsx";
@@ -57,13 +58,13 @@ export default function SignalsPage() {
 
             <div className="my-4">
                 <h3 className="text-xl mb-2">Add Todo</h3>
-                <TodoForm addTodo={addTodo}/>
+                <TodoFormSignal addTodo={addTodo}/>
             </div>
 
             <div className="my-4">
                 <div className="flex gap-2 items-center mb-2">
                     <Button variant="outline" className="w-8 h-8 p-0" onClick={() => loadTodos()}>
-                        <RefreshCcw size={16} />
+                        <RefreshCcw size={16}/>
                     </Button>
                     <h3 className="text-xl">Todos</h3>
                 </div>

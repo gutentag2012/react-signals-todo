@@ -17,6 +17,8 @@ const MemoizedTodoItem = memo(TodoItem, (prevProps, nextProps) => {
     return functionsAreEqual && todosAreEqual
 })
 
+const MemoizedTodoCard = memo(TodoCard)
+
 function TodoList({todos, isLoading, removeTodo, updateTodo}: { todos: Array<Todo>, isLoading: boolean, updateTodo: UpdateTodo, removeTodo: RemoveTodo }) {
     if (isLoading) return <p>Loading...</p>
 
@@ -42,17 +44,17 @@ export default function HooksPage() {
     return (
         <>
             <div className="flex gap-2 my-2">
-                <TodoCard
+                <MemoizedTodoCard
                     title="Finished"
                     description="The number of finished todos"
                     count={numberOfFinishedTodos}
                 />
-                <TodoCard
+                <MemoizedTodoCard
                     title="Open"
                     description="The number of todos that still have to be done"
                     count={numberOfOpenTodos}
                 />
-                <TodoCard
+                <MemoizedTodoCard
                     title="Pending"
                     description="The number of todos that are not yet persisted"
                     count={numberOfPendingTodos}
