@@ -20,7 +20,8 @@ const MemoizedTodoItem = memo(TodoItem, (prevProps, nextProps) => {
 const MemoizedTodoCard = memo(TodoCard)
 
 function TodoList({todos, isLoading, removeTodo, updateTodo}: { todos: Array<Todo>, isLoading: boolean, updateTodo: UpdateTodo, removeTodo: RemoveTodo }) {
-    if (isLoading) return <p>Loading...</p>
+    if (isLoading) return <p className="text-lg p-4 font-medium text-center">Loading...</p>
+    if(!todos.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
 
     return <div className="flex flex-col gap-2">
         {

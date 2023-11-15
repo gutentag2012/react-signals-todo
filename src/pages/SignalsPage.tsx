@@ -19,7 +19,8 @@ import {RefreshCcw} from "lucide-react";
 const MemoizedTodoItem = memo(TodoItem)
 
 function TodoList() {
-    if (isLoading.value) return <p>Loading...</p>
+    if (isLoading.value) return <p className="text-lg p-4 font-medium text-center">Loading...</p>
+    if(!todos.value.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
 
     return <div className="flex flex-col gap-2">
         {
