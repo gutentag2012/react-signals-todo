@@ -7,15 +7,17 @@ const description = "Imagine this is a very expensive component to render each t
 
 //region Hooks
 let globalCounter = 0;
+// This updates the global state independent of the component
+setInterval(() => {
+    globalCounter++
+}, 1000)
 export function ExpensivePersistentCounterComponentHooks() {
     const [counter, setCounter] = useState(globalCounter);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setCounter(counter => {
-                globalCounter = counter + 1
-                return globalCounter
-            })
+            // We only want to sync the global state with the component state when the component is mounted
+            setCounter(globalCounter)
         }, 1000)
 
         return () => clearInterval(interval)
