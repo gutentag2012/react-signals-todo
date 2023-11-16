@@ -7,10 +7,10 @@ export function TodoCard({title, description, count}: {
     count: number | string | Signal<number | string>
 }) {
     return (
-        <Card className="w-full grid row-span-2" style={{
+        <Card className="w-full grid row-span-2 gap-y-2" style={{
             gridTemplateRows: "subgrid",
         }}>
-            <CardHeader className="min-h-[175px]">
+            <CardHeader>
                 <CardTitle>{title}</CardTitle>
                 <CardDescription>{description}</CardDescription>
             </CardHeader>

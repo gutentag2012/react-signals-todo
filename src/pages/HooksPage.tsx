@@ -64,7 +64,7 @@ export default function HooksPage() {
         <>
             <EditTodoDialog todo={editTodo} updateTodo={updateTodo} onClose={() => setEditTodo(undefined)}/>
 
-            <div className="gap-2 my-2 grid" style={{
+            <div className="gap-x-2 my-2 grid" style={{
                 gridTemplateColumns: "repeat(auto-fit, minmax(15rem, 1fr))"
             }}>
                 <MemoizedTodoCard

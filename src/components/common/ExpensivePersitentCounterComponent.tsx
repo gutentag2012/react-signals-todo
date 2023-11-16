@@ -24,10 +24,10 @@ export function ExpensivePersistentCounterComponentHooks() {
         return () => clearInterval(interval)
     }, []);
 
-    return <Card className="w-full grid row-span-2" style={{
+    return <Card className="w-full grid row-span-2 gap-y-2" style={{
         gridTemplateRows: "subgrid",
     }}>
-        <CardHeader className="min-h-[175px]">
+        <CardHeader>
             <CardTitle>{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
         </CardHeader>
@@ -50,10 +50,10 @@ effect(() => {
 })
 
 export function ExpensivePersistentCounterComponentSignals() {
-    return <Card className="w-full grid row-span-2" style={{
+    return <Card className="w-full grid row-span-2 gap-y-2" style={{
         gridTemplateRows: "subgrid",
     }}>
-        <CardHeader className="min-h-[175px]">
+        <CardHeader>
             <CardTitle>{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
         </CardHeader>

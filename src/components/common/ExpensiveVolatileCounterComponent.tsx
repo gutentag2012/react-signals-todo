@@ -14,10 +14,10 @@ export function ExpensiveVolatileCounterComponentHooks() {
         return () => clearInterval(interval)
     }, []);
 
-    return <Card className="w-full grid row-span-2" style={{
+    return <Card className="w-full grid row-span-2 gap-y-2" style={{
         gridTemplateRows: "subgrid",
     }}>
-        <CardHeader className="min-h-[175px]">
+        <CardHeader>
             <CardTitle>Expensive Volatile Counter</CardTitle>
             <CardDescription>Imagine this is a very expensive component to render each time. Also this has an internal
                 state we want to keep as long as possible.</CardDescription>
@@ -41,10 +41,10 @@ export function ExpensiveVolatileCounterComponentSignals() {
         return () => clearInterval(interval)
     });
 
-    return <Card className="w-full grid row-span-2" style={{
+    return <Card className="w-full grid row-span-2 gap-y-2" style={{
         gridTemplateRows: "subgrid",
     }}>
-        <CardHeader className="min-h-[175px]">
+        <CardHeader>
             <CardTitle>Expensive Volatile Counter</CardTitle>
             <CardDescription>Imagine this is a very expensive component to render each time. Also this has an internal
                 state we want to keep as long as possible.</CardDescription>
