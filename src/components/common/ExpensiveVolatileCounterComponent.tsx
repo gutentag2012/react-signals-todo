@@ -14,7 +14,9 @@ export function ExpensiveVolatileCounterComponentHooks() {
         return () => clearInterval(interval)
     }, []);
 
-    return <Card className="w-[350px]">
+    return <Card className="w-full grid row-span-2" style={{
+        gridTemplateRows: "subgrid",
+    }}>
         <CardHeader className="min-h-[175px]">
             <CardTitle>Expensive Volatile Counter</CardTitle>
             <CardDescription>Imagine this is a very expensive component to render each time. Also this has an internal
@@ -25,6 +27,7 @@ export function ExpensiveVolatileCounterComponentHooks() {
         </CardContent>
     </Card>
 }
+
 //endregion
 
 //region Signals
@@ -38,7 +41,9 @@ export function ExpensiveVolatileCounterComponentSignals() {
         return () => clearInterval(interval)
     });
 
-    return <Card className="w-[350px]">
+    return <Card className="w-full grid row-span-2" style={{
+        gridTemplateRows: "subgrid",
+    }}>
         <CardHeader className="min-h-[175px]">
             <CardTitle>Expensive Volatile Counter</CardTitle>
             <CardDescription>Imagine this is a very expensive component to render each time. Also this has an internal
@@ -49,4 +54,5 @@ export function ExpensiveVolatileCounterComponentSignals() {
         </CardContent>
     </Card>
 }
+
 //endregion

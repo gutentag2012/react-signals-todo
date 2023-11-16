@@ -64,7 +64,9 @@ export default function HooksPage() {
         <>
             <EditTodoDialog todo={editTodo} updateTodo={updateTodo} onClose={() => setEditTodo(undefined)}/>
 
-            <div className="flex gap-2 my-2">
+            <div className="gap-2 my-2 grid" style={{
+                gridTemplateColumns: "repeat(auto-fit, minmax(15rem, 1fr))"
+            }}>
                 <MemoizedTodoCard
                     title="Finished"
                     description="The number of finished todos"

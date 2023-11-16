@@ -11,6 +11,7 @@ let globalCounter = 0;
 setInterval(() => {
     globalCounter++
 }, 1000)
+
 export function ExpensivePersistentCounterComponentHooks() {
     const [counter, setCounter] = useState(globalCounter);
 
@@ -23,7 +24,9 @@ export function ExpensivePersistentCounterComponentHooks() {
         return () => clearInterval(interval)
     }, []);
 
-    return <Card className="w-[350px]">
+    return <Card className="w-full grid row-span-2" style={{
+        gridTemplateRows: "subgrid",
+    }}>
         <CardHeader className="min-h-[175px]">
             <CardTitle>{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
@@ -33,6 +36,7 @@ export function ExpensivePersistentCounterComponentHooks() {
         </CardContent>
     </Card>
 }
+
 //endregion
 
 //region Signals
@@ -46,7 +50,9 @@ effect(() => {
 })
 
 export function ExpensivePersistentCounterComponentSignals() {
-    return <Card className="w-[350px]">
+    return <Card className="w-full grid row-span-2" style={{
+        gridTemplateRows: "subgrid",
+    }}>
         <CardHeader className="min-h-[175px]">
             <CardTitle>{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
@@ -56,5 +62,6 @@ export function ExpensivePersistentCounterComponentSignals() {
         </CardContent>
     </Card>
 }
+
 //endregion
 
