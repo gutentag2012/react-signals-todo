@@ -6,7 +6,7 @@ import {
     numberOfFinishedTodos,
     numberOfOpenTodos,
     numberOfPendingTodos,
-    todos
+    sortedTodos,
 } from "@/utils/signalsTodos.ts";
 import {EditTodoDialogSignal, TodoFormSignal} from "@/components/common/TodoForm.tsx";
 import {TodoItemSignals as TodoItem, TodoItemSkeleton} from "@/components/common/TodoItem.tsx";
@@ -20,7 +20,7 @@ import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 const MemoizedTodoItem = memo(TodoItem)
 
 function TodoList() {
-    if (!isLoading.value && !todos.value.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
+    if (!isLoading.value && !sortedTodos.value.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
 
     return <ScrollArea className="h-[525px]">
         <div className="flex flex-col gap-2 mr-3">
@@ -34,7 +34,7 @@ function TodoList() {
                         <TodoItemSkeleton/>
                         <TodoItemSkeleton/>
                     </>
-                    : todos.value.map(({id, todo}) => <MemoizedTodoItem key={id} todo={todo}/>)
+                    : sortedTodos.value.map(({id, todo}) => <MemoizedTodoItem key={id} todo={todo}/>)
             }
         </div>
     </ScrollArea>
