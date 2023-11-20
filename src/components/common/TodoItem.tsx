@@ -93,7 +93,7 @@ export default function TodoItem({todo, updateTodo, removeTodo, onEdit}: {
 
                 <CardHeader>
                     <CardTitle>{todo.label}</CardTitle>
-                    {todo.date && <CardDescription>Due until {todo.date}</CardDescription>}
+                    <CardDescription>{todo.date ? `Due until ${todo.date}` : "No due date"}</CardDescription>
                 </CardHeader>
                 <p className="text-lg ml-auto">
                     <ImportanceIndicator importance={todo.importance}/>
@@ -192,7 +192,7 @@ export function TodoItemSignals({todo}: { todo: SignalizedTodo }) {
 
                 <CardHeader>
                     <CardTitle>{todo.value.label}</CardTitle>
-                    {todo.value.date && <CardDescription>Due until {todo.value.date}</CardDescription>}
+                    <CardDescription>{todo.value.date ? `Due until ${todo.value.date}` : "No due date"}</CardDescription>
                 </CardHeader>
                 <p className="text-lg ml-auto">
                     <ImportanceIndicator importance={todo.value.importance}/>
