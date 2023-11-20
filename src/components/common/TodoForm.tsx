@@ -6,7 +6,7 @@ import {Input} from "@/components/ui/input.tsx";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {cn} from "@/lib/utils.ts";
-import {CalendarIcon} from "lucide-react";
+import {AlertTriangleIcon, CalendarIcon} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar.tsx";
 import {
     Select,
@@ -106,14 +106,29 @@ function ImportanceSelect({importance, onChange}: {
 // To be clear in a real application you would not memoize this component, since it is not expensive to render
 const MemoizedImportanceSelect = memo(ImportanceSelect)
 
+function TodoError({error}: { error: string | null }) {
+    if (!error) return null
+    return <span className="mb-2 flex items-center gap-2 text-red-500">
+                <AlertTriangleIcon size={24}/>
+            <p className="text-sm font-medium">{error}</p>
+        </span>
+}
 
 export function TodoForm({addTodo}: { addTodo: AddTodo }) {
     const [todoLabel, setTodoLabel] = useState("");
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
     const [importance, setImportance] = useState<Importance>("medium");
+    const [error, setError] = useState<string | null>(null);
 
     return <form onSubmit={e => {
         e.preventDefault()
+
+        if (!todoLabel) {
+            setError("Todo label is required!")
+            return
+        } else {
+            setError(null)
+        }
 
         // ResetForm
         setTodoLabel("")
@@ -133,6 +148,8 @@ export function TodoForm({addTodo}: { addTodo: AddTodo }) {
             <MemoizedImportanceSelect importance={importance} onChange={setImportance}/>
         </div>
 
+        <TodoError error={error}/>
+
         <Button>Create</Button>
     </form>
 }
@@ -145,6 +162,7 @@ export function EditTodoDialog({todo, updateTodo, onClose}: {
     const [todoLabel, setTodoLabel] = useState("");
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
     const [importance, setImportance] = useState<Importance>("medium");
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!todo) return;
@@ -160,6 +178,13 @@ export function EditTodoDialog({todo, updateTodo, onClose}: {
                 e.preventDefault()
 
                 if (!todo) return;
+
+                if (!todoLabel) {
+                    setError("Todo label is required!")
+                    return
+                } else {
+                    setError(null)
+                }
 
                 // ResetForm
                 setTodoLabel("")
@@ -187,6 +212,8 @@ export function EditTodoDialog({todo, updateTodo, onClose}: {
                     <MemoizedDateInput date={selectedDate} onChange={setSelectedDate}/>
                     <MemoizedImportanceSelect importance={importance} onChange={setImportance}/>
                 </div>
+
+                <TodoError error={error}/>
 
                 <DialogFooter>
                     <Button>Update</Button>
@@ -219,13 +246,25 @@ function ImportanceSelectSignal({importance}: { importance: Signal<Importance> }
     />
 }
 
+function TodoErrorSignal({error}: { error: Signal<string | null> }) {
+    return <TodoError error={error.value}/>
+}
+
 export function TodoFormSignal({addTodo}: { addTodo: AddTodo }) {
     const todoLabel = useSignal("")
     const selectedDate = useSignal<Date | undefined>(new Date())
     const importance = useSignal<Importance>("medium")
+    const error = useSignal<string | null>(null)
 
     return <form onSubmit={e => {
         e.preventDefault()
+
+        if (!todoLabel.value) {
+            error.value = "Todo label is required!"
+            return
+        } else {
+            error.value = null
+        }
 
         const selectedDateValue = selectedDate.peek()
         const newTodo: AddTodoModel = {
@@ -250,6 +289,8 @@ export function TodoFormSignal({addTodo}: { addTodo: AddTodo }) {
             <ImportanceSelectSignal importance={importance}/>
         </div>
 
+        <TodoErrorSignal error={error}/>
+
         <Button>Create</Button>
     </form>
 }
@@ -258,6 +299,7 @@ export function EditTodoDialogSignal() {
     const todoLabel = useSignal("")
     const selectedDate = useSignal<Date | undefined>(new Date())
     const importance = useSignal<Importance>("medium")
+    const error = useSignal<string | null>(null)
 
     useSignalEffect(() => {
         if (!editTodo.value) return;
@@ -276,6 +318,13 @@ export function EditTodoDialogSignal() {
                 e.preventDefault()
 
                 if (!editTodo.value) return;
+
+                if (!todoLabel.value) {
+                    error.value = "Todo label is required!"
+                    return
+                } else {
+                    error.value = null
+                }
 
                 const editId = editTodo.value.id
                 const selectedDateValue = selectedDate.peek()
@@ -309,6 +358,8 @@ export function EditTodoDialogSignal() {
                     <ImportanceSelectSignal importance={importance}/>
                 </div>
 
+                <TodoErrorSignal error={error}/>
+
                 <DialogFooter>
                     <Button>Update</Button>
                     <Button variant="outline" type="button" onClick={onClose}>Cancel</Button>
@@ -317,4 +368,5 @@ export function EditTodoDialogSignal() {
         </DialogContent>
     </Dialog>
 }
+
 //endregion
