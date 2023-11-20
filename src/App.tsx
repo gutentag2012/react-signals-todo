@@ -7,10 +7,15 @@ const pages = {
     signals: "Signals"
 }
 
+console.group(pages.hooks)
+
 function App() {
     return (
         <div className="dark container my-2">
-            <Tabs defaultValue={pages.hooks}>
+            <Tabs defaultValue={pages.hooks} onValueChange={(value) => {
+                console.groupEnd()
+                console.group(value)
+            }}>
                 <nav>
                     <h1 className="text-5xl text-left my-8">Signals<span className="text-primary">Test</span></h1>
                     <TabsList className="mb-4">
