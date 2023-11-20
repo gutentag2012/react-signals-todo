@@ -28,7 +28,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog.tsx";
 import parse from "date-fns/parse";
-import {editTodo, updateTodo} from "@/utils/signalsTodos.tsx";
+import {editTodo, updateTodo} from "@/utils/signalsTodos.ts";
 
 //region Hooks
 function LabelInput({value, onChange}: { value: string, onChange: (value: string) => void }) {

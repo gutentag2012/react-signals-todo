@@ -1,7 +1,6 @@
 import HooksPage from "@/pages/HooksPage.tsx";
 import SignalsPage from "@/pages/SignalsPage.tsx";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
-import {Toaster} from "@/components/ui/toaster.tsx";
 
 const pages = {
     hooks: "Hooks",
@@ -28,8 +27,6 @@ function App() {
                     </TabsContent>
                 </main>
             </Tabs>
-
-            <Toaster />
         </div>
     )
 }

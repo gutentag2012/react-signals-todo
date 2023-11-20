@@ -7,7 +7,7 @@ import {
     numberOfOpenTodos,
     numberOfPendingTodos,
     todos
-} from "@/utils/signalsTodos.tsx";
+} from "@/utils/signalsTodos.ts";
 import {EditTodoDialogSignal, TodoFormSignal} from "@/components/common/TodoForm.tsx";
 import {TodoItemSignals as TodoItem, TodoItemSkeleton} from "@/components/common/TodoItem.tsx";
 import {TodoCard} from "@/components/common/TodoCard.tsx";
@@ -50,7 +50,9 @@ export default function SignalsPage() {
         <>
             <EditTodoDialogSignal/>
 
-            <div className="flex gap-2 my-2">
+            <div className="gap-x-2 my-2 grid" style={{
+                gridTemplateColumns: "repeat(auto-fit, minmax(15rem, 1fr))"
+            }}>
                 <TodoCard
                     title="Finished"
                     description="The number of finished todos"
