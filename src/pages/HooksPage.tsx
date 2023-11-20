@@ -8,7 +8,6 @@ import {ExpensivePersistentCounterComponentHooks} from "@/components/common/Expe
 import {Button} from "@/components/ui/button.tsx";
 import {RefreshCcw} from "lucide-react";
 import {EditTodoDialog, TodoForm} from "@/components/common/TodoForm.tsx";
-import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 
 const MemoizedTodoItem = memo(TodoItem, (prevProps, nextProps) => {
     const functionsAreEqual = prevProps.removeTodo === nextProps.removeTodo && prevProps.updateTodo === nextProps.updateTodo
@@ -25,31 +24,31 @@ function TodoList({todos, isLoading, removeTodo, updateTodo, onEditTodo}: {
     removeTodo: RemoveTodo,
     onEditTodo: (editTodo: Todo) => void
 }) {
-    if (!isLoading && !todos.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
+    if (!isLoading && !todos.length) {
+        return (<p className="text-lg p-4 font-medium text-center">
+            Nothing todo for you
+        </p>)
+    }
 
-    return <ScrollArea className="h-[525px]">
-        <div className="flex flex-col gap-2 mr-3">
-            {
-                isLoading
-                    ? <>
-                        <TodoItemSkeleton/>
-                        <TodoItemSkeleton/>
-                        <TodoItemSkeleton/>
-                        <TodoItemSkeleton/>
-                        <TodoItemSkeleton/>
-                        <TodoItemSkeleton/>
-                    </>
-                    : todos.map(todo => <MemoizedTodoItem
-                        key={todo.id}
-                        todo={todo}
-                        updateTodo={updateTodo}
-                        removeTodo={removeTodo}
-                        onEdit={onEditTodo}
-                    />)
+    return <div className="flex flex-col gap-2 mr-3">
+        {
+            isLoading
+                ? <>
+                    <TodoItemSkeleton/>
+                    <TodoItemSkeleton/>
+                    <TodoItemSkeleton/>
+                    <TodoItemSkeleton/>
+                </>
+                : todos.map(todo => <MemoizedTodoItem
+                    key={todo.id}
+                    todo={todo}
+                    updateTodo={updateTodo}
+                    removeTodo={removeTodo}
+                    onEdit={onEditTodo}
+                />)
 
-            }
-        </div>
-    </ScrollArea>
+        }
+    </div>
 }
 
 export default function HooksPage() {

@@ -15,29 +15,28 @@ import {ExpensiveVolatileCounterComponentSignals} from "@/components/common/Expe
 import {ExpensivePersistentCounterComponentSignals} from "@/components/common/ExpensivePersitentCounterComponent.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {RefreshCcw} from "lucide-react";
-import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 
 const MemoizedTodoItem = memo(TodoItem)
 
 function TodoList() {
-    if (!isLoading.value && !sortedTodos.value.length) return <p className="text-lg p-4 font-medium text-center">Nothing todo for you</p>
+    if (!isLoading.value && !sortedTodos.value.length) {
+        return (<p className="text-lg p-4 font-medium text-center">
+            Nothing todo for you
+        </p>)
+    }
 
-    return <ScrollArea className="h-[525px]">
-        <div className="flex flex-col gap-2 mr-3">
-            {
-                isLoading.value
-                    ? <>
-                        <TodoItemSkeleton/>
-                        <TodoItemSkeleton/>
-                        <TodoItemSkeleton/>
-                        <TodoItemSkeleton/>
-                        <TodoItemSkeleton/>
-                        <TodoItemSkeleton/>
-                    </>
-                    : sortedTodos.value.map(({id, todo}) => <MemoizedTodoItem key={id} todo={todo}/>)
-            }
-        </div>
-    </ScrollArea>
+    return <div className="flex flex-col gap-2 mr-3">
+        {
+            isLoading.value
+                ? <>
+                    <TodoItemSkeleton/>
+                    <TodoItemSkeleton/>
+                    <TodoItemSkeleton/>
+                    <TodoItemSkeleton/>
+                </>
+                : sortedTodos.value.map(({id, todo}) => <MemoizedTodoItem key={id} todo={todo}/>)
+        }
+    </div>
 }
 
 export default function SignalsPage() {
