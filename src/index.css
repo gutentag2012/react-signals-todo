@@ -57,5 +57,10 @@
   }
   body {
     @apply bg-background text-foreground;
+
+    position: relative;
+
+    background-image: repeating-linear-gradient(-45deg, rgba(255,255,255, 0.05), rgba(255,255,255, 0.125) 1px, transparent 1px, transparent 16px);
+    background-size: 10px 10px;
   }
 }
