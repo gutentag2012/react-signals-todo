@@ -1,5 +1,13 @@
-import {generateId, loadTodosFromLocalStorage, storeTodosInLocalStorage, Todo} from "@/utils/todos.ts";
+import {
+    generateId,
+    ImportanceValues,
+    loadTodosFromLocalStorage,
+    storeTodosInLocalStorage,
+    Todo
+} from "@/utils/todos.ts";
 import {batch, computed, Signal, signal} from "@preact/signals-react";
+import parse from "date-fns/parse";
+import {startOfDay} from "date-fns";
 
 export type SignalizedTodo = Signal<Omit<Todo, "isPending"> & { isPending: Signal<boolean> }>
 export type TodoItem = {
@@ -16,19 +24,52 @@ export const editTodo = signal<Omit<Todo, "isPending"> | undefined>(undefined)
 //region Computed State
 export const numberOfFinishedTodos = computed(() => isLoading.value ? "-" : todos.value.filter(({todo}) => todo.value.status === "done").length);
 export const numberOfOpenTodos = computed(() => isLoading.value ? "-" : todos.value.filter(({todo}) => todo.value.status === "todo").length);
-export const numberOfPendingTodos = computed(() => isLoading.value ? "-" : todos.value.filter(({todo}) => todo.value.isPending).length);
+export const numberOfPendingTodos = computed(() => isLoading.value ? "-" : todos.value.filter(({todo}) => todo.value.isPending.value).length);
+
+export const sortedTodos = computed(() => {
+    console.log("%c ↻ Recompute sortedTodos (signals)", "color: #42dd89; font-weight: bold;")
+    return todos.value.sort((a, b) => {
+        const aTodoValue = a.todo.peek();
+        const bTodoValue = b.todo.peek();
+
+        const startOfDayValue = startOfDay(new Date())
+        const aDate = aTodoValue.date ? parse(aTodoValue.date, "PPP", startOfDayValue) : undefined
+        const bDate = bTodoValue.date ? parse(bTodoValue.date, "PPP", startOfDayValue) : undefined
+        if(aDate && !bDate) {
+            return -1
+        } else if(!aDate && bDate) {
+            return 1
+        } else if(aDate && bDate && aDate.getTime() !== bDate.getTime()) {
+            return bDate.getTime() - aDate.getTime()
+        }
+
+        if(aTodoValue.importance === bTodoValue.importance) {
+            return aTodoValue.label.localeCompare(bTodoValue.label)
+        }
+
+        const aImportanceValue = ImportanceValues.indexOf(aTodoValue.importance)
+        const bImportanceValue = ImportanceValues.indexOf(bTodoValue.importance)
+        return bImportanceValue - aImportanceValue
+    })
+})
 //endregion
 
 //region Helper Functions
-const makeTodoItem = (todo: Todo): TodoItem => ({
-    id: todo.id,
-    todo: signal({
+const makeTodoItem = (todo: Todo): TodoItem => {
+    console.log("MakeTodoItem (signals)")
+    const todoSignal = signal({
         ...todo,
         isPending: signal(todo.isPending ?? false)
     })
-})
+
+    return ({
+        id: todo.id,
+        todo: todoSignal
+    });
+}
 
 export const loadTodos = async () => {
+    console.log("%c ↻ Load Todos (signals)", "color: #7dc50d; font-weight: bold;")
     isLoading.value = true
 
     const responseTodos = await loadTodosFromLocalStorage()

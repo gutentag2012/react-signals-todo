@@ -1,5 +1,14 @@
-import {useCallback, useEffect, useState} from "react";
-import {AddTodoModel, generateId, loadTodosFromLocalStorage, storeTodosInLocalStorage, Todo} from "@/utils/todos.ts";
+import {useCallback, useEffect, useMemo, useState} from "react";
+import {
+    AddTodoModel,
+    generateId,
+    ImportanceValues,
+    loadTodosFromLocalStorage,
+    storeTodosInLocalStorage,
+    Todo
+} from "@/utils/todos.ts";
+import {startOfDay} from "date-fns";
+import parse from "date-fns/parse";
 
 //! Does reduce the number of renders for the todolist, but is not adviced to be used in a real world scenario!
 export const useTodosBad = () => {
@@ -86,7 +95,32 @@ export const useTodos = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [todos, setTodos] = useState<Todo[]>([])
 
+    const sortedTodos = useMemo(() => {
+        console.log("%c ↻ Recompute sortedTodos (hooks)", "color: #42dd89; font-weight: bold;")
+        return todos.sort((aTodoValue, bTodoValue) => {
+            const startOfDayValue = startOfDay(new Date())
+            const aDate = aTodoValue.date ? parse(aTodoValue.date, "PPP", startOfDayValue) : undefined
+            const bDate = bTodoValue.date ? parse(bTodoValue.date, "PPP", startOfDayValue) : undefined
+            if (aDate && !bDate) {
+                return -1
+            } else if (!aDate && bDate) {
+                return 1
+            } else if (aDate && bDate && aDate.getTime() !== bDate.getTime()) {
+                return bDate.getTime() - aDate.getTime()
+            }
+
+            if (aTodoValue.importance === bTodoValue.importance) {
+                return aTodoValue.label.localeCompare(bTodoValue.label)
+            }
+
+            const aImportanceValue = ImportanceValues.indexOf(aTodoValue.importance)
+            const bImportanceValue = ImportanceValues.indexOf(bTodoValue.importance)
+            return bImportanceValue - aImportanceValue
+        })
+    }, [todos])
+
     const reload = useCallback(() => {
+        console.log("%c ↻ Load Todos (hooks)", "color: #7dc50d; font-weight: bold;")
         setIsLoading(true)
         loadTodosFromLocalStorage().then((todos) => {
             setTodos(todos)
@@ -155,7 +189,7 @@ export const useTodos = () => {
         await storeTodosInLocalStorage(newTodos)
     }, [todos])
 
-    return [isLoading, todos, addTodo, updateTodo, removeTodo, reload] as const
+    return [isLoading, sortedTodos, addTodo, updateTodo, removeTodo, reload] as const
 }
 
 type UseTodos = ReturnType<typeof useTodos>
