@@ -96,7 +96,7 @@ export const useTodos = () => {
     const [todos, setTodos] = useState<Todo[]>([])
 
     const sortedTodos = useMemo(() => {
-        console.log("%c ↻ Recompute sortedTodos (hooks)", "color: #42dd89; font-weight: bold;")
+        console.log("%c ⏳ Recompute sortedTodos", "color: #42dd89; font-weight: bold;")
         return todos.sort((aTodoValue, bTodoValue) => {
             const startOfDayValue = startOfDay(new Date())
             const aDate = aTodoValue.date ? parse(aTodoValue.date, "PPP", startOfDayValue) : undefined
@@ -120,7 +120,7 @@ export const useTodos = () => {
     }, [todos])
 
     const reload = useCallback(() => {
-        console.log("%c ↻ Load Todos (hooks)", "color: #7dc50d; font-weight: bold;")
+        console.log("%c 💾 Load Todos", "color: #7dc50d; font-weight: bold;")
         setIsLoading(true)
         loadTodosFromLocalStorage().then((todos) => {
             setTodos(todos)

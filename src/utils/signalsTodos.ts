@@ -27,7 +27,7 @@ export const numberOfOpenTodos = computed(() => isLoading.value ? "-" : todos.va
 export const numberOfPendingTodos = computed(() => isLoading.value ? "-" : todos.value.filter(({todo}) => todo.value.isPending.value).length);
 
 export const sortedTodos = computed(() => {
-    console.log("%c ↻ Recompute sortedTodos (signals)", "color: #42dd89; font-weight: bold;")
+    console.log("%c ⏳ Recompute sortedTodos", "color: #42dd89; font-weight: bold;")
     return todos.value.sort((a, b) => {
         const aTodoValue = a.todo.peek();
         const bTodoValue = b.todo.peek();
@@ -56,7 +56,7 @@ export const sortedTodos = computed(() => {
 
 //region Helper Functions
 const makeTodoItem = (todo: Todo): TodoItem => {
-    console.log("MakeTodoItem (signals)")
+    console.log("MakeTodoItem")
     const todoSignal = signal({
         ...todo,
         isPending: signal(todo.isPending ?? false)
@@ -69,7 +69,7 @@ const makeTodoItem = (todo: Todo): TodoItem => {
 }
 
 export const loadTodos = async () => {
-    console.log("%c ↻ Load Todos (signals)", "color: #7dc50d; font-weight: bold;")
+    console.log("%c 💾 Load Todos", "color: #7dc50d; font-weight: bold;")
     isLoading.value = true
 
     const responseTodos = await loadTodosFromLocalStorage()
