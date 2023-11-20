@@ -8,6 +8,9 @@ import {ExpensivePersistentCounterComponentHooks} from "@/components/common/Expe
 import {Button} from "@/components/ui/button.tsx";
 import {RefreshCcw} from "lucide-react";
 import {EditTodoDialog, TodoForm} from "@/components/common/TodoForm.tsx";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {Switch} from "@/components/ui/switch.tsx";
+import {Label} from "@/components/ui/label.tsx";
 
 const MemoizedTodoItem = memo(TodoItem, (prevProps, nextProps) => {
     const functionsAreEqual = prevProps.removeTodo === nextProps.removeTodo && prevProps.updateTodo === nextProps.updateTodo
@@ -51,9 +54,21 @@ function TodoList({todos, isLoading, removeTodo, updateTodo, onEditTodo}: {
     </div>
 }
 
+function SortTodoSwitch({sortTodos, setSortTodos}: {
+    sortTodos: boolean,
+    setSortTodos: (value: ((prev: boolean) => boolean)) => void
+}) {
+    return <div className="flex items-center h-full gap-2">
+        <Switch id="sorted-todos" checked={sortTodos} onCheckedChange={() => setSortTodos(prev => !prev)}/>
+        <Label htmlFor="sorted-todos">Sort todos</Label>
+    </div>
+}
+
 export default function HooksPage() {
-    const [isLoading, todos, addTodo, updateTodo, removeTodo, reload] = useTodos();
     const [editTodo, setEditTodo] = useState<Todo | undefined>(undefined);
+    const [sortTodos, setSortTodos] = useState(false);
+
+    const [isLoading, todos, addTodo, updateTodo, removeTodo, reload] = useTodos(sortTodos);
 
     const numberOfFinishedTodos = useMemo(() => isLoading ? "-" : todos.filter(todo => todo.status === "done").length, [todos, isLoading]);
     const numberOfOpenTodos = useMemo(() => isLoading ? "-" : todos.filter(todo => todo.status === "todo").length, [todos, isLoading]);
@@ -85,17 +100,27 @@ export default function HooksPage() {
                 <ExpensiveVolatileCounterComponentHooks/>
             </div>
 
-            <div className="my-12">
-                <h3 className="text-xl mb-2">Add Todo</h3>
-                <TodoForm addTodo={addTodo}/>
-            </div>
+            <Card className="my-12">
+                <CardHeader>
+                    <CardTitle>Add Todo</CardTitle>
+                    <CardDescription>
+                        Add a new todo to your list
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <TodoForm addTodo={addTodo}/>
+                </CardContent>
+            </Card>
 
             <div className="my-4">
-                <div className="flex gap-2 items-center mb-2">
+                <div className="flex gap-4 items-center mb-2">
                     <Button variant="outline" className="w-8 h-8 p-0" onClick={() => reload()}>
                         <RefreshCcw size={16}/>
                     </Button>
+
                     <h3 className="text-xl">Todos</h3>
+
+                    <SortTodoSwitch setSortTodos={setSortTodos} sortTodos={sortTodos}/>
                 </div>
 
                 <TodoList todos={todos} isLoading={isLoading} removeTodo={removeTodo} updateTodo={updateTodo}
