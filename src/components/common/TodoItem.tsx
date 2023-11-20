@@ -56,7 +56,7 @@ function HookContextMenuContent({isPending, toggleTodo, status, onEdit, onRemove
             {status === "done" ? <Square size={18}/> : <CheckSquare2 size={18}/>}
             Mark as {status === "done" ? "todo" : "done"}
         </ContextMenuItem>
-        <ContextMenuItem disabled={isPending || status === "done"} onSelect={onEdit}
+        <ContextMenuItem disabled={isPending} onSelect={onEdit}
                          className="flex gap-2 items-center">
             <Pen size={18}/>
             Edit
@@ -147,7 +147,7 @@ function SignalContextMenuContent({isPending, toggleTodo, status, onEdit, onRemo
             {status === "done" ? <Square size={18}/> : <CheckSquare2 size={18}/>}
             Mark as {status === "done" ? "todo" : "done"}
         </ContextMenuItem>
-        <ContextMenuItem disabled={isPending.value || status === "done"} onSelect={onEdit}
+        <ContextMenuItem disabled={isPending.value} onSelect={onEdit}
                          className="flex gap-2 items-center">
             <Pen size={18}/>
             Edit
