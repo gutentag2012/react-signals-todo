@@ -62,7 +62,7 @@ function HookContextMenuContent({isPending, toggleTodo, status, onEdit, onRemove
             Edit
         </ContextMenuItem>
         <ContextMenuSeparator/>
-        <ContextMenuItem disabled={isPending || status !== "done"} onSelect={onRemove}
+        <ContextMenuItem disabled={isPending} onSelect={onRemove}
                          className="flex gap-2 items-center">
             <Delete size={18}/>
             Remove
@@ -153,7 +153,7 @@ function SignalContextMenuContent({isPending, toggleTodo, status, onEdit, onRemo
             Edit
         </ContextMenuItem>
         <ContextMenuSeparator/>
-        <ContextMenuItem disabled={isPending.value || status !== "done"} onSelect={onRemove}
+        <ContextMenuItem disabled={isPending.value} onSelect={onRemove}
                          className="flex gap-2 items-center">
             <Delete size={18}/>
             Remove

@@ -3,7 +3,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {effect, signal} from "@preact/signals-react";
 
 const title = "Expensive Persistent Counter";
-const description = "Imagine this is a very expensive component to render each time. Also this has an internal state that is updated in the background and persisted between renders.";
+const description = "This component has an internal state that is updated in the background and persisted between renders.";
 
 //region Hooks
 let globalCounter = 0;
@@ -24,7 +24,7 @@ export function ExpensivePersistentCounterComponentHooks() {
         return () => clearInterval(interval)
     }, []);
 
-    return <Card className="w-full grid row-span-2 gap-y-2" style={{
+    return <Card className="w-full grid row-span-2 gap-y-2 col-span-2" style={{
         gridTemplateRows: "subgrid",
     }}>
         <CardHeader>
@@ -50,7 +50,7 @@ effect(() => {
 })
 
 export function ExpensivePersistentCounterComponentSignals() {
-    return <Card className="w-full grid row-span-2 gap-y-2" style={{
+    return <Card className="w-full grid row-span-2 gap-y-2 col-span-2" style={{
         gridTemplateRows: "subgrid",
     }}>
         <CardHeader>

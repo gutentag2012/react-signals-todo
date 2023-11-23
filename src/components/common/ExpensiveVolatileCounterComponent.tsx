@@ -2,6 +2,9 @@ import {useSignal, useSignalEffect} from "@preact/signals-react";
 import {useEffect, useState} from "react";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 
+const title = "Expensive Volatile Counter";
+const description = "This component has an internal state we want to keep as long as possible."
+
 //region Hooks
 export function ExpensiveVolatileCounterComponentHooks() {
     const [counter, setCounter] = useState(0);
@@ -14,13 +17,12 @@ export function ExpensiveVolatileCounterComponentHooks() {
         return () => clearInterval(interval)
     }, []);
 
-    return <Card className="w-full grid row-span-2 gap-y-2" style={{
+    return <Card className="w-full grid row-span-2 gap-y-2 col-span-2" style={{
         gridTemplateRows: "subgrid",
     }}>
         <CardHeader>
-            <CardTitle>Expensive Volatile Counter</CardTitle>
-            <CardDescription>Imagine this is a very expensive component to render each time. Also this has an internal
-                state we want to keep as long as possible.</CardDescription>
+            <CardTitle>{title}</CardTitle>
+            <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent>
             <p className="text-5xl text-center">{counter}</p>
@@ -41,13 +43,12 @@ export function ExpensiveVolatileCounterComponentSignals() {
         return () => clearInterval(interval)
     });
 
-    return <Card className="w-full grid row-span-2 gap-y-2" style={{
+    return <Card className="w-full grid row-span-2 gap-y-2 col-span-2" style={{
         gridTemplateRows: "subgrid",
     }}>
         <CardHeader>
-            <CardTitle>Expensive Volatile Counter</CardTitle>
-            <CardDescription>Imagine this is a very expensive component to render each time. Also this has an internal
-                state we want to keep as long as possible.</CardDescription>
+            <CardTitle>{title}</CardTitle>
+            <CardDescription>{description}</CardDescription>
         </CardHeader>
         <CardContent>
             <p className="text-5xl text-center">{counter}</p>

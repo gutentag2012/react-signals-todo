@@ -78,8 +78,8 @@ export default function HooksPage() {
         <>
             <EditTodoDialog todo={editTodo} updateTodo={updateTodo} onClose={() => setEditTodo(undefined)}/>
 
-            <div className="gap-x-2 my-2 grid" style={{
-                gridTemplateColumns: "repeat(auto-fit, minmax(15rem, 1fr))"
+            <div className="gap-2 my-2 grid" style={{
+                gridTemplateColumns: "repeat(auto-fit, minmax(10em, 1fr))"
             }}>
                 <MemoizedTodoCard
                     title="Finished"
@@ -100,7 +100,7 @@ export default function HooksPage() {
                 <ExpensiveVolatileCounterComponentHooks/>
             </div>
 
-            <Card className="my-12">
+            <Card className="mt-2 mb-4">
                 <CardHeader>
                     <CardTitle>Add Todo</CardTitle>
                     <CardDescription>

@@ -74,7 +74,7 @@ export default function SignalsPage() {
             <EditTodoDialogSignal/>
 
             <div className="gap-x-2 my-2 grid" style={{
-                gridTemplateColumns: "repeat(auto-fit, minmax(15rem, 1fr))"
+                gridTemplateColumns: "repeat(auto-fit, minmax(10rem, 1fr))"
             }}>
                 <TodoCard
                     title="Finished"
@@ -96,7 +96,7 @@ export default function SignalsPage() {
             </div>
 
 
-            <Card className="my-12">
+            <Card className="mt-2 mb-4">
                 <CardHeader>
                     <CardTitle>Add Todo</CardTitle>
                     <CardDescription>
