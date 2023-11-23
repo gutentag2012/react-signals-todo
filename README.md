@@ -26,10 +26,3 @@ If you are developing a production application, we recommend updating the config
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
-### Presentation
-
-- Todos values update instant and not on next render like in React
-- State is global by default
-- Decoupling of state and presentation
-- Fine-grained reactivity
-  - Only the parts of the UI that depend on the state are updated

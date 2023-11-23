@@ -30,7 +30,7 @@ function TodoList({data}: {data: Signal<Array<SignalizedTodo>>}) {
     }
 
     if (isLoading.value) {
-        return <div className="flex flex-col gap-2 mr-3">
+        return <div className="flex flex-col gap-2">
             <TodoItemSkeleton/>
             <TodoItemSkeleton/>
             <TodoItemSkeleton/>
@@ -38,7 +38,7 @@ function TodoList({data}: {data: Signal<Array<SignalizedTodo>>}) {
         </div>
     }
 
-    return <div className="flex flex-col gap-2 mr-3">
+    return <div className="flex flex-col gap-2">
         {
             data.value.map((todo) => {
                 const key = computed(() => todo.value.id)

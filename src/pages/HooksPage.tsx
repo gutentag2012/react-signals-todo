@@ -33,22 +33,22 @@ function TodoList({todos, isLoading, removeTodo, updateTodo, onEditTodo}: {
         </p>)
     }
 
-    return <div className="flex flex-col gap-2 mr-3">
+    if (isLoading) return <div className="flex flex-col gap-2">
+        <TodoItemSkeleton/>
+        <TodoItemSkeleton/>
+        <TodoItemSkeleton/>
+        <TodoItemSkeleton/>
+    </div>
+
+    return <div className="flex flex-col gap-2">
         {
-            isLoading
-                ? <>
-                    <TodoItemSkeleton/>
-                    <TodoItemSkeleton/>
-                    <TodoItemSkeleton/>
-                    <TodoItemSkeleton/>
-                </>
-                : todos.map(todo => <MemoizedTodoItem
-                    key={todo.id}
-                    todo={todo}
-                    updateTodo={updateTodo}
-                    removeTodo={removeTodo}
-                    onEdit={onEditTodo}
-                />)
+            todos.map(todo => <MemoizedTodoItem
+                key={todo.id}
+                todo={todo}
+                updateTodo={updateTodo}
+                removeTodo={removeTodo}
+                onEdit={onEditTodo}
+            />)
 
         }
     </div>
