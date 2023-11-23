@@ -3,7 +3,6 @@ import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card
 import {cn} from "@/lib/utils.ts";
 import {Checkbox} from "@/components/ui/checkbox.tsx";
 import {CheckSquare2, ChevronsDown, ChevronsUp, Delete, Loader2, Minus, Pen, Square} from "lucide-react";
-import {Button, ButtonProps} from "@/components/ui/button.tsx";
 import {Importance, Todo} from "@/utils/todos.ts";
 import {Signal} from "@preact/signals-react";
 import {editTodo, removeTodo, SignalizedTodo, updateTodo} from "@/utils/signalsTodos.ts";
@@ -18,7 +17,7 @@ import {Skeleton} from "@/components/ui/skeleton";
 import {memo, useCallback} from "react";
 
 export function TodoItemSkeleton() {
-    return <Card className="flex items-center px-4 h-[92px]">
+    return <Card className="flex items-center px-4 h-[76px]">
         <Skeleton className="w-4 h-4 rounded-md"/>
 
         <CardHeader>
@@ -91,20 +90,14 @@ export default function TodoItem({todo, updateTodo, removeTodo, onEdit}: {
                     onClick={toggleTodo}
                 />
 
-                <CardHeader>
+                <CardHeader className="ml-6 py-4 px-0">
                     <CardTitle>{todo.label}</CardTitle>
                     <CardDescription>{todo.date ? `Due until ${todo.date}` : "No due date"}</CardDescription>
                 </CardHeader>
+
                 <p className="text-lg ml-auto">
                     <ImportanceIndicator importance={todo.importance}/>
                 </p>
-                {todo.status === "done" &&
-                    <Button disabled={todo.isPending} variant="destructive" className="ml-4" onClick={() => {
-                        if (todo.isPending) return;
-                        return removeTodo(todo.id)
-                    }}>
-                        Remove
-                    </Button>}
             </Card>
         </ContextMenuTrigger>
         <HookContextMenuContent
@@ -161,10 +154,6 @@ function SignalContextMenuContent({isPending, toggleTodo, status, onEdit, onRemo
     </ContextMenuContent>
 }
 
-function SignalButton({disabled, children, ...props}: Omit<ButtonProps, "disabled"> & { disabled: Signal<boolean> }) {
-    return <Button disabled={disabled.value} {...props}>{children}</Button>
-}
-
 export function TodoItemSignals({todo}: { todo: SignalizedTodo }) {
     const toggleTodo = useCallback(
         () => updateTodo(todo.peek().id, {status: todo.peek().status === "todo" ? "done" : "todo"}),
@@ -190,27 +179,14 @@ export function TodoItemSignals({todo}: { todo: SignalizedTodo }) {
                     onClick={toggleTodo}
                 />
 
-                <CardHeader>
+                <CardHeader className="ml-6 py-4 px-0">
                     <CardTitle>{todo.value.label}</CardTitle>
                     <CardDescription>{todo.value.date ? `Due until ${todo.value.date}` : "No due date"}</CardDescription>
                 </CardHeader>
+
                 <p className="text-lg ml-auto">
                     <ImportanceIndicator importance={todo.value.importance}/>
                 </p>
-                {todo.value.status === "done" && (
-                    <SignalButton
-                        disabled={todo.value.isPending}
-                        variant="destructive"
-                        className="ml-4"
-                        onClick={() => {
-                            if (todo.value.isPending.peek()) return;
-                            return removeTodo(todo.value.id)
-                        }}
-                    >
-                        Remove
-                    </SignalButton>
-                )
-                }
             </Card>
         </ContextMenuTrigger>
         <SignalContextMenuContent
@@ -222,4 +198,5 @@ export function TodoItemSignals({todo}: { todo: SignalizedTodo }) {
         />
     </ContextMenu>
 }
+
 //endregion
